@@ -50,6 +50,9 @@ public class PacienteController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Paciente> listarId(@PathVariable("id") Integer id) {
 		Paciente paciente = pacienteService.listar(id);
+		if(paciente == null) {
+			throw new ModeloNotFoundException("ID" + id);
+		} 
 		return new ResponseEntity<Paciente>(paciente, HttpStatus.OK);
 	}
 
@@ -87,16 +90,18 @@ public class PacienteController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public void eliminar(@PathVariable Integer id) {
 		Paciente paciente = pacienteService.listar(id);
-		
-		if(paciente!=null) {
-			
+
+		if (paciente != null) {
 			throw new ModeloNotFoundException("ID:" + id);
-			
-		}
-		else {
+
+		} else {
 			pacienteService.eliminar(id);
 		}
 	}

@@ -21,11 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.service.IPacienteService;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import com.example.demo.exception.ModeloNotFoundException;
 import com.example.demo.model.Paciente;
 
 @RestController
 @RequestMapping("/pacientes")
+@Api(value="Servicio REST para los pacientes")
 public class PacienteController {
 
 	@Autowired
@@ -35,6 +38,7 @@ public class PacienteController {
 	 * 
 	 * @return
 	 */
+	@ApiOperation(value="Retorna una lista de pacientes")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Paciente>> listar() {
 		List<Paciente> pacientes = new ArrayList<>();

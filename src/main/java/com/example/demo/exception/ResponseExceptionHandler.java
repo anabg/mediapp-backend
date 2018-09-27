@@ -4,12 +4,14 @@ import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.support.MethodArgumentNotValidException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 
 @ControllerAdvice
 @RestController
@@ -30,9 +32,13 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	
 	@Override
-	@ExceptionHandler(ModeloNotFoundException.class)
-	public final ResponseEntity<Object> handledMethodArgumentNotValid(org.springframework.web.bind.MethodArgumentNotValidException ex, WebRequest request){
-		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validacion Fallida", request.getDescription(false));
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(org.springframework.web.bind.MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
+		String x = "";
+		for(ObjectError err : ex.getBindingResult().getAllErrors()) {
+			x.concat( err.toString());
+		}
+		//ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validacion Fallida", request.getDescription(false));
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validacion Fallida", x);
 		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 	

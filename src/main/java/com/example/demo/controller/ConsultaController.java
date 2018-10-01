@@ -22,33 +22,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.service.IPacienteService;
+import com.example.demo.service.IConsultaService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.example.demo.exception.ModeloNotFoundException;
-import com.example.demo.model.Paciente;
+import com.example.demo.model.Consulta;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;;
 
 @RestController
-@RequestMapping("/pacientes")
-@Api(value="Servicio REST para los pacientes")
-public class PacienteController {
+@RequestMapping("/consultas")
+@Api(value="Servicio REST para los consultas")
+public class ConsultaController {
 
 	@Autowired
-	private IPacienteService pacienteService;
+	private IConsultaService consultaService;
 
 	/**
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value="Retorna una lista de pacientes")
+	@ApiOperation(value="Retorna una lista de consultas")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Paciente>> listar() {
-		List<Paciente> pacientes = new ArrayList<>();
-		pacientes = pacienteService.listar();
-		return new ResponseEntity<List<Paciente>>(pacientes, HttpStatus.OK);
+	public ResponseEntity<List<Consulta>> listar() {
+		List<Consulta> consultas = new ArrayList<>();
+		consultas = consultaService.listar();
+		return new ResponseEntity<List<Consulta>>(consultas, HttpStatus.OK);
 	}
 
 	/**
@@ -57,27 +57,27 @@ public class PacienteController {
 	 * @return
 	 */
 	@GetMapping(value = "/{id}")
-	public Resource<Paciente> listarId(@PathVariable("id") Integer id) {
-		Paciente paciente = pacienteService.listar(id);
-		if(paciente == null) {
+	public Resource<Consulta> listarId(@PathVariable("id") Integer id) {
+		Consulta consulta = consultaService.listar(id);
+		if(consulta == null) {
 			throw new ModeloNotFoundException("ID" + id);
 		} 
-		Resource<Paciente> resource = new Resource<Paciente>(paciente);
+		Resource<Consulta> resource = new Resource<Consulta>(consulta);
 		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).listarId(id));
 		
-		resource.add(linkTo.withRel("paciente-resource"));
- 		//return new ResponseEntity<Paciente>(paciente, HttpStatus.OK);
+		resource.add(linkTo.withRel("consulta-resource"));
+ 		//return new ResponseEntity<Consulta>(consulta, HttpStatus.OK);
 		
 		return resource;
 	}
 
 	/**
 	 * 
-	 * @param paciente
+	 * @param consulta
 	 * @return
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> registrar(@Valid @RequestBody Paciente paciente) {
+	public ResponseEntity<Object> registrar(@Valid @RequestBody Consulta consulta) {
 
 		/**
 		 * { "nombres":"ana belen" , "apellidos": "grimaut", "dni":"12345678",
@@ -85,10 +85,10 @@ public class PacienteController {
 		 * 
 		 * }
 		 */
-		Paciente pac = new Paciente();
-		pac = pacienteService.registrar(paciente);
+		Consulta con = new Consulta();
+		con = consultaService.registrar(consulta);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(pac.getIdPaciente())
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(con.getIdConsulta())
 				.toUri();
 		return ResponseEntity.created(location).build();
 
@@ -96,12 +96,12 @@ public class PacienteController {
 
 	/**
 	 * 
-	 * @param paciente
+	 * @param consulta
 	 * @return
 	 */
 	@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> actualizar(@Valid @RequestBody Paciente paciente) {
-		pacienteService.modificar(paciente);
+	public ResponseEntity<Object> actualizar(@Valid @RequestBody Consulta consulta) {
+		consultaService.modificar(consulta);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
@@ -111,13 +111,13 @@ public class PacienteController {
 	 */
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public void eliminar(@PathVariable Integer id) {
-		Paciente paciente = pacienteService.listar(id);
+		Consulta consulta = consultaService.listar(id);
 
-		if (paciente != null) {
+		if (consulta != null) {
 			throw new ModeloNotFoundException("ID:" + id);
 
 		} else {
-			pacienteService.eliminar(id);
+			consultaService.eliminar(id);
 		}
 	}
 }

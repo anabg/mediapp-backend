@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -20,6 +22,8 @@ public class Paciente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPaciente;
 
+	//@JsonIgnore
+	//@JsonProperty("nombres property")
 	@ApiModelProperty(notes = "Nombres debe tener minimo 3 caracteres")
 	@Size(min = 3, message = "Nombres debe tener minimo 3 caracteres")
 	@Column(name = "nombres", nullable = false, length = 70)

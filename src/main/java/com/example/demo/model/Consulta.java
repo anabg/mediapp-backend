@@ -91,5 +91,28 @@ public class Consulta {
 		this.detalleConsulta = detalleConsulta;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + idConsulta;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Consulta other = (Consulta) obj;
+		if (idConsulta != other.idConsulta)
+			return false;
+		return true;
+	}
+
+	
 	
 }

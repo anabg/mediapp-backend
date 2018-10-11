@@ -10,11 +10,11 @@ import javax.persistence.ManyToOne;
 public class ConsultaExamenPK implements Serializable {
 
 	@ManyToOne
-	@JoinColumn(name = "idExamen", nullable = false)
+	@JoinColumn(name = "id_examen", nullable = false)
 	private Examen examen;
 	
 	@ManyToOne
-	@JoinColumn(name = "idConsulta", nullable = false)
+	@JoinColumn(name = "id_consulta", nullable = false)
 	private Consulta consulta;
 	
 	@Override

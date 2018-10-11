@@ -79,12 +79,12 @@ public class ExamenController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> registrar(@Valid @RequestBody Examen examen) {
 
-		/**
-		 * { "nombres":"ana belen" , "apellidos": "grimaut", "dni":"12345678",
-		 * "direccion":"algo", "telefono":"123456789"
-		 * 
-		 * }
-		 */
+
+		/*{
+		    "nombre": "Rayos x",
+		    "descripcion": "con contraste"
+		}*/
+		
 		Examen med = new Examen();
 		med = examenService.registrar(examen);
 

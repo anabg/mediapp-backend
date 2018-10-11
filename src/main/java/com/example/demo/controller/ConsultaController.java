@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.demo.service.IConsultaService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.example.demo.dto.ConsultaListaExamenDTO;
 import com.example.demo.exception.ModeloNotFoundException;
 import com.example.demo.model.Consulta;
 
@@ -77,7 +78,7 @@ public class ConsultaController {
 	 * @return
 	 */
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> registrar(@Valid @RequestBody Consulta consulta) {
+	public ResponseEntity<Object> registrar(@Valid @RequestBody ConsultaListaExamenDTO consultaDTO) {
 
 		/**
 		 * { "nombres":"ana belen" , "apellidos": "grimaut", "dni":"12345678",
@@ -86,7 +87,7 @@ public class ConsultaController {
 		 * }
 		 */
 		Consulta con = new Consulta();
-		con = consultaService.registrar(consulta);
+		con = consultaService.registrar(consultaDTO);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(con.getIdConsulta())
 				.toUri();

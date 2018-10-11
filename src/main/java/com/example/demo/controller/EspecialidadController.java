@@ -32,8 +32,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;;
 
 @RestController
-@RequestMapping("/especialidads")
-@Api(value="Servicio REST para los especialidads")
+@RequestMapping("/especialidades")
+@Api(value="Servicio REST para los especialidades")
 public class EspecialidadController {
 
 	@Autowired

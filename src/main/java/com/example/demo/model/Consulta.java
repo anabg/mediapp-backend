@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 public class Consulta {
 
 	@Id
+	@Column(name="id_consulta")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idConsulta;
 
@@ -41,7 +43,7 @@ public class Consulta {
 			CascadeType.REMOVE }, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<DetalleConsulta> detalleConsulta;
 
-	
+
 
 	public int getIdConsulta() {
 		return idConsulta;

@@ -25,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.demo.service.IConsultaService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.example.demo.dto.ConsultaDTO;
 import com.example.demo.dto.ConsultaListaExamenDTO;
 import com.example.demo.exception.ModeloNotFoundException;
 import com.example.demo.model.Consulta;
@@ -121,4 +122,35 @@ public class ConsultaController {
 			consultaService.eliminar(id);
 		}
 	}
+	
+	@GetMapping(value="/hateoas", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<ConsultaDTO> listarHateos(){
+		
+		List<Consulta> consultas = new ArrayList<>();
+		List<ConsultaDTO> consultasDTO = new ArrayList<>();
+		
+		consultas = consultaService.listar();
+		
+		for(Consulta c : consultas){
+			
+			ConsultaDTO d = new ConsultaDTO();
+			
+			d.setIdConsulta(c.getIdConsulta());
+			d.setMedico(c.getMedico());
+			d.setPaciente(c.getPaciente());
+			
+			ControllerLinkBuilder linkTo = linkTo(methodOn(ConsultaController.class).listarId((c.getIdConsulta())));
+			d.add(linkTo.withSelfRel());
+			consultasDTO.add(d);
+			
+			ControllerLinkBuilder linkTo1 = linkTo(methodOn(PacienteController.class).listarId((c.getPaciente().getIdPaciente())));
+			d.add(linkTo1.withSelfRel());
+			consultasDTO.add(d);
+			
+			ControllerLinkBuilder linkTo2 = linkTo(methodOn(MedicoController.class).listarId((c.getMedico().getIdMedico())));
+			d.add(linkTo2.withSelfRel());
+			consultasDTO.add(d);
+		}
+		return consultasDTO;
+	} 
 }

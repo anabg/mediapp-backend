@@ -2,8 +2,10 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dao.IConsultaDAO;
 import com.example.demo.dao.IConsultaExamenDAO;
@@ -45,8 +47,10 @@ public class ConsultaServieImpl implements IConsultaService{
 		return consultaDAO.findAll();
 	}
 
+	@Transactional
 	@Override
 	public Consulta registrar(ConsultaListaExamenDTO consultaDTO) {
+		consultaDTO.getConsulta().getDetalleConsulta().forEach(x -> x.setConsulta(consultaDTO.getConsulta()));
 		consultaDAO.save(consultaDTO.getConsulta());
 		consultaDTO.getListExamen().forEach(e -> consultaExamenDAO.registrar(consultaDTO.getConsulta().getIdConsulta(), e.getIdExamen()));
 		return consultaDTO.getConsulta();

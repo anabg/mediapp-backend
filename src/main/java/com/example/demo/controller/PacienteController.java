@@ -113,7 +113,7 @@ public class PacienteController {
 	public void eliminar(@PathVariable Integer id) {
 		Paciente paciente = pacienteService.listar(id);
 
-		if (paciente != null) {
+		if (paciente == null) {
 			throw new ModeloNotFoundException("ID:" + id);
 
 		} else {

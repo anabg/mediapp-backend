@@ -33,7 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;;
 
 @RestController
 @RequestMapping("/especialidades")
-@Api(value="Servicio REST para los especialidades")
+@Api(value = "Servicio REST para los especialidades")
 public class EspecialidadController {
 
 	@Autowired
@@ -43,7 +43,7 @@ public class EspecialidadController {
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value="Retorna una lista de especialidads")
+	@ApiOperation(value = "Retorna una lista de especialidads")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Especialidad>> listar() {
 		List<Especialidad> especialidads = new ArrayList<>();
@@ -59,15 +59,15 @@ public class EspecialidadController {
 	@GetMapping(value = "/{id}")
 	public Resource<Especialidad> listarId(@PathVariable("id") Integer id) {
 		Especialidad especialidad = especialidadService.listar(id);
-		if(especialidad == null) {
+		if (especialidad == null) {
 			throw new ModeloNotFoundException("ID" + id);
-		} 
+		}
 		Resource<Especialidad> resource = new Resource<Especialidad>(especialidad);
 		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).listarId(id));
-		
+
 		resource.add(linkTo.withRel("especialidad-resource"));
- 		//return new ResponseEntity<Especialidad>(especialidad, HttpStatus.OK);
-		
+		// return new ResponseEntity<Especialidad>(especialidad, HttpStatus.OK);
+
 		return resource;
 	}
 
@@ -80,16 +80,14 @@ public class EspecialidadController {
 	public ResponseEntity<Object> registrar(@Valid @RequestBody Especialidad especialidad) {
 
 		/**
-		 * { "nombres":"ana belen" , "apellidos": "grimaut", "dni":"12345678",
-		 * "direccion":"algo", "telefono":"123456789"
-		 * 
-		 * }
+		 * { "nombre":"ENDOCRINOLOGIA" }
 		 */
+
 		Especialidad esp = new Especialidad();
 		esp = especialidadService.registrar(especialidad);
 
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/id").buildAndExpand(esp.getIdEspecialidad())
-				.toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/id")
+				.buildAndExpand(esp.getIdEspecialidad()).toUri();
 		return ResponseEntity.created(location).build();
 
 	}
@@ -113,7 +111,7 @@ public class EspecialidadController {
 	public void eliminar(@PathVariable Integer id) {
 		Especialidad especialidad = especialidadService.listar(id);
 
-		if (especialidad != null) {
+		if (especialidad == null) {
 			throw new ModeloNotFoundException("ID:" + id);
 
 		} else {

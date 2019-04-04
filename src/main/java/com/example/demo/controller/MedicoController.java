@@ -33,7 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;;
 
 @RestController
 @RequestMapping("/medicos")
-@Api(value="Servicio REST para los medicos")
+@Api(value = "Servicio REST para los medicos")
 public class MedicoController {
 
 	@Autowired
@@ -43,7 +43,7 @@ public class MedicoController {
 	 * 
 	 * @return
 	 */
-	@ApiOperation(value="Retorna una lista de medicos")
+	@ApiOperation(value = "Retorna una lista de medicos")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Medico>> listar() {
 		List<Medico> medicos = new ArrayList<>();
@@ -59,15 +59,15 @@ public class MedicoController {
 	@GetMapping(value = "/{id}")
 	public Resource<Medico> listarId(@PathVariable("id") Integer id) {
 		Medico medico = medicoService.listar(id);
-		if(medico == null) {
+		if (medico == null) {
 			throw new ModeloNotFoundException("ID" + id);
-		} 
+		}
 		Resource<Medico> resource = new Resource<Medico>(medico);
 		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).listarId(id));
-		
+
 		resource.add(linkTo.withRel("medico-resource"));
- 		//return new ResponseEntity<Medico>(medico, HttpStatus.OK);
-		
+		// return new ResponseEntity<Medico>(medico, HttpStatus.OK);
+
 		return resource;
 	}
 
@@ -80,10 +80,7 @@ public class MedicoController {
 	public ResponseEntity<Object> registrar(@Valid @RequestBody Medico medico) {
 
 		/**
-		 * { "nombres":"ana belen" , "apellidos": "grimaut", "dni":"12345678",
-		 * "direccion":"algo", "telefono":"123456789"
-		 * 
-		 * }
+		 * { "nombres":"ana belen" , "apellidos": "grimaut", "cmp": "123456789012" }
 		 */
 		Medico med = new Medico();
 		med = medicoService.registrar(medico);
@@ -113,7 +110,7 @@ public class MedicoController {
 	public void eliminar(@PathVariable Integer id) {
 		Medico medico = medicoService.listar(id);
 
-		if (medico != null) {
+		if (medico == null) {
 			throw new ModeloNotFoundException("ID:" + id);
 
 		} else {

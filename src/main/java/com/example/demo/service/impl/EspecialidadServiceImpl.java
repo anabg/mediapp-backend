@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.IEspecialidadDAO;
@@ -11,6 +12,7 @@ import com.example.demo.service.IEspecialidadService;
 @Service
 public class EspecialidadServiceImpl implements IEspecialidadService {
 
+	@Autowired
 	private IEspecialidadDAO especialidadDAO;
 	
 	@Override

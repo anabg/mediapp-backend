@@ -27,7 +27,6 @@ public class Consulta {
 	@Column(name="id_consulta")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idConsulta;
-
 	@ManyToOne
 	@JoinColumn(name = "id_paciente", nullable = false)
 	private Paciente paciente;

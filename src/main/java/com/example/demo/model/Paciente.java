@@ -23,7 +23,8 @@ public class Paciente {
 	private Integer idPaciente;
 
 	//@JsonIgnore
-	//@JsonProperty("nombres property")
+	//para modificar el nombre de la variable que ponemos en el json que enviamos y/o recibimos
+	@JsonProperty("nombres")
 	@ApiModelProperty(notes = "Nombres debe tener minimo 3 caracteres")
 	@Size(min = 3, message = "Nombres debe tener minimo 3 caracteres")
 	@Column(name = "nombres", nullable = false, length = 70)
